@@ -1,0 +1,12 @@
+"Window" : {
+	navBarHidden:true
+}
+"Button" : {
+	height:40,
+	width:"50%",
+	backgroundImage:"/btn.png"	
+}
+"Label" : {
+	width:Ti.UI.SIZE
+}
+

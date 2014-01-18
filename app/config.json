@@ -1,0 +1,13 @@
+{
+	"global": {
+		"theme":"red"
+	}, 
+	"env:development": {}, 
+	"env:test": {}, 
+	"env:production": {}, 
+	"os:blackberry": {},
+	"os:ios": {},
+    "os:android": {},
+	"os:mobileweb": {},
+	"dependencies": {}
+}

@@ -1,0 +1,9 @@
+<Alloy>
+	<Window class="container">
+		<ImageView id="logo"/>
+		<Label id="label"/>
+		<Button id="button" onClick="btnClick"/>
+		<View id="mapview" ns="Ti.Map" />
+		<TableView id="table" onClick="tblClick"/>
+	</Window>
+</Alloy>

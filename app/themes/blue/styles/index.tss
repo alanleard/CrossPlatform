@@ -1,0 +1,14 @@
+".container" : {
+	backgroundColor:"#000"
+}
+"#label" : {
+	color:"#fff"
+}
+"#button" : {
+	backgroundColor:"blue",
+	color:"#fff"
+}
+"#table" : {
+	backgroundColor:"#000",
+	data:[{title:"Appcelerator", color:"#fff"},{title:"Apple", color:"#fff"},{title:"Google", color:"#fff"}]
+}

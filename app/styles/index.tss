@@ -1,0 +1,28 @@
+".container" : {
+	layout:"vertical"
+}
+"#logo" : {
+	top:20,
+	image:"/logo.png",
+	height:100,
+	width:100
+}
+"#label" : {
+	text:"I am a Label",
+	top:20,
+	color:"#000"
+}
+"#button" : {
+	top:20,
+	title:"I am a Button",
+	backgroundColor:"red",
+	color:"#fff"
+}
+"#table" : {
+	height:Ti.UI.FILL
+}
+"#mapview" : {
+	top:20,
+	height:"35%",
+	region:{latitude:37.389569, longitude:-122.051651, latitudeDelta:0.5, longitudeDelta:0.5}
+}
