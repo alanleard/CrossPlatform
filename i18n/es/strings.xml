@@ -5,4 +5,6 @@
 	<string name="button_locating">Conseguir Ubicación...</string>
 	<string name="button_located">Ubicación Encontrado</string>
 	<string name="button_failed">Ubicación no Disponible</string>
+	<string name="button_remove">Retirar mi Ubicación</string>
+	<string name="barcode_scan">Código de Barras Tomografía</string>
 </resources>

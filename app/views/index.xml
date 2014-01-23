@@ -2,10 +2,12 @@
 	<Window class="container">
 		<View id="nav">
 			<ImageView id="logo"/>
-			<WebView id="ads"/>
+			<View id="couponClick" onClick="couponClick">
+				<WebView id="coupons"/>
+			</View>
 		</View>
-		<Label id="label"/>
-		<Button id="button" onClick="btnClick"/>
+		<Label id="barcode" onClick="scanBarcode"/>
+		<Label id="location" onClick="locate"/>
 		<View id="mapview" ns="Ti.Map" />
 		<ScrollView id="table"/>
 	</Window>

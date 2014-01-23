@@ -1,10 +1,10 @@
 ".container" : {
 	backgroundColor:"#fff"
 }
-"#label" : {
+"#barcode" : {
 	color:"#000"
 }
-"#button" : {
+"#location" : {
 	backgroundColor:"red",
 	color:"#fff"
 }

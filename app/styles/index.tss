@@ -3,28 +3,35 @@
 }
 "#nav" : {
 	top:20,
-	height:80,
-	width:Ti.UI.FILL,
-	layout:"horizontal"
+	height:60,
+	width:Ti.UI.FILL
 }
 "#logo" : {
-	image:"/logo.png",
-	height:80,
-	width:80
+	image:"/appicon.png",
+	height:60,
+	width:60,
+	left:0
 }
-"#ads" : {
-	height:80, 
-	width:200,
-	url:"http://google.com"
+"#couponClick" : {
+	height:58, 
+	width:234,
+	right:0
 }
-"#label" : {
-	text:L("label_name"),
+"#coupons" : {
+	height:Ti.UI.FILL, 
+	width:Ti.UI.FILL,
+	touchEnabled:false,
+	backgroundColor:"#000"
+}
+"#barcode" : {
+	text:L("barcode_scan"),
 	top:10,
 	color:"#000"
 }
-"#button" : {
+"#location" : {
 	top:10,
-	title:L("button_name")
+	text:L("button_name"),
+	backgroundImage:"/btn.png"	
 }
 "#table" : {
 	height:Ti.UI.FILL,

@@ -1,3 +1,6 @@
-"#rowLabel" : {
+"#title" : {
 	color:"#000"
+}
+"#divider" : {
+	backgroundColor:"red"
 }

@@ -4,5 +4,7 @@
 	<string name="label_name">I am a Label</string>
 	<string name="button_locating">Getting Location...</string>
 	<string name="button_located">Location Found</string>
+	<string name="button_remove">Remove My Location</string>
 	<string name="button_failed">Location Unavailable</string>
+	<string name="barcode_scan">Scan Barcode</string>
 </resources>

@@ -3,10 +3,10 @@
 }
 "Button" : {
 	height:40,
-	width:"50%",
-	backgroundImage:"/btn.png"	
+	width:Ti.UI.SIZE
 }
 "Label" : {
+	height:40,
 	width:Ti.UI.SIZE
 }
 

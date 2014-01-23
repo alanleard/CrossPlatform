@@ -7,7 +7,7 @@ Current Known Issues
 ====================
 
 BlackBerry
-——————————
+
 To get ti.cloud to work you need to manually include the ti.cloud modules in the assets directory of the blackberry build folder (build/blackberry/assets/ti.cloud.js)
 
 Also ti.cloud.js currently needs to be modified:

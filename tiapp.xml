@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <property name="acs-authbase-url" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-development" type="string">6qMw9xt5Hq9HFrYXEWsKVbrPw65EhpTA</property>
+    <property name="acs-oauth-key-development" type="string">IL1G6JulUPBjytaluRowPwPSoU8TsWEl</property>
+    <property name="acs-api-key-development" type="string">Hnmazxau57yL6QoF3sA1o1fRnG5IVhRM</property>
+    <property name="acs-oauth-secret-production" type="string">EK0lOCEjURjgCWBDtYM13x8phBFvvFMC</property>
+    <property name="acs-oauth-key-production" type="string">mNflcZWLrCqIQZrBP9S52z730iJRrr90</property>
+    <property name="acs-api-key-production" type="string">640vEXjfwJ25jBYIpnj4ERyQD4jwlfei</property>
+    <property name="com-appcelerator-apm-id" type="string">52dd5619b8d7d5019300003e</property>
     <id>com.appcelerator.cross</id>
     <name>CrossPlatform</name>
     <version>1.0</version>
@@ -9,7 +19,7 @@
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>true</navbar-hidden>
-    <analytics>false</analytics>
+    <analytics>true</analytics>
     <guid>0720b124-e204-4817-84b1-ffd56b77bcca</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
@@ -34,6 +44,19 @@
                 <false/>
                 <key>UIStatusBarStyle</key>
                 <string>UIStatusBarStyleDefault</string>
+                <key>CFBundleURLTypes</key>
+                <array>
+                    <dict>
+                        <key>CFBundleTypeRole</key>
+                        <string>Editor</string>
+                        <key>CFBundleURLName</key>
+                        <string>com.appcelerator.cross</string>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <string>touchtest-41b53741-b4e9-48dc-9af6-a427dd5cce42</string>
+                        </array>
+                    </dict>
+                </array>
             </dict>
         </plist>
     </ios>
@@ -53,13 +76,42 @@
             <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
             <!-- Replace <com.domain.appid> with your application ID -->
             <uses-permission android:name="com.appcelerator.cross.permission.MAPS_RECEIVE"/>
-            <permission android:name="com.appcelerator.cross.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+            <permission
+                android:name="com.appcelerator.cross.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
             <application>
                 <!-- Replace "PASTE YOUR GOOGLE MAPS API KEY HERE" with the Google API key you obtained -->
-                <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAie3Ougsoxl7tlnxmfTVGiIfL-jT17ZwU"/>
+                <meta-data
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAie3Ougsoxl7tlnxmfTVGiIfL-jT17ZwU"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation"
+                    android:label="CrossPlatform"
+                    android:name=".CrossplatformActivity" android:theme="@style/Theme.Titanium">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>
+                    <intent-filter>
+                        <data android:scheme="touchtest-41b53741-b4e9-48dc-9af6-a427dd5cce42"/>
+                        <action android:name="android.intent.action.VIEW"/>
+                        <category android:name="android.intent.category.BROWSABLE"/>
+                        <category android:name="android.intent.category.DEFAULT"/>
+                    </intent-filter>
+                </activity>
+                <service android:enabled="true" android:exported="false" android:name="com.soasta.android.touchtest.TouchTestService"/>
             </application>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.BLUETOOTH"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.GET_TASKS"/>
         </manifest>
     </android>
+    <blackberry>
+        <permissions>
+            <permission>access_internet</permission>
+            <permission>access_location_services</permission>
+        </permissions>
+    </blackberry>
     <mobileweb>
         <precache/>
         <splash>
@@ -69,8 +121,16 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="iphone">ti.map</module>
+        <module platform="android">com.appcelerator.apm</module>
+        <module deploy-type="test" platform="android" version="1.0">com.soasta.touchtest</module>
+        <module deploy-type="development" platform="iphone" version="1.0">com.soasta.touchtest</module>
+        <module deploy-type="development" platform="android" version="1.0">com.soasta.touchtest</module>
+        <module platform="iphone">com.appcelerator.apm</module>
+        <module deploy-type="test" platform="iphone" version="1.0">com.soasta.touchtest</module>
         <module platform="android">ti.map</module>
+        <module platform="iphone">ti.map</module>
+        <module platform="iphone">ti.barcode</module>
+        <module platform="android">ti.barcode</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
@@ -83,54 +143,57 @@
     <sdk-version>3.2.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
+        <plugin>com.soasta.touchtest.android</plugin>
     </plugins>
-<tizen xmlns:tizen="http://ti.appcelerator.org" appid="1nWLDDpOmg">
-<tizen:privilege name="http://tizen.org/privilege/system"/>
-<tizen:privilege name="http://tizen.org/privilege/tizen"/>
-<tizen:privilege name="http://tizen.org/privilege/systeminfo"/>
-<tizen:privilege name="http://tizen.org/privilege/system"/>
-<tizen:privilege name="http://tizen.org/privilege/setting"/>
-<tizen:privilege name="http://tizen.org/privilege/secureelement"/>
-<tizen:privilege name="http://tizen.org/privilege/push"/>
-<tizen:privilege name="http://tizen.org/privilege/power"/>
-<tizen:privilege name="http://tizen.org/privilege/package.info"/>
-<tizen:privilege name="http://tizen.org/privilege/notification.write"/>
-<tizen:privilege name="http://tizen.org/privilege/notification.read"/>
-<tizen:privilege name="http://tizen.org/privilege/notification"/>
-<tizen:privilege name="http://tizen.org/privilege/nfc.tag"/>
-<tizen:privilege name="http://tizen.org/privilege/nfc.p2p"/>
-<tizen:privilege name="http://tizen.org/privilege/nfc.common"/>
-<tizen:privilege name="http://tizen.org/privilege/nfc.admin"/>
-<tizen:privilege name="http://tizen.org/privilege/networkbearerselection"/>
-<tizen:privilege name="http://tizen.org/privilege/messaging.write"/>
-<tizen:privilege name="http://tizen.org/privilege/messaging.write"/>
-<tizen:privilege name="http://tizen.org/privilege/messaging.send"/>
-<tizen:privilege name="http://tizen.org/privilege/messaging.read"/>
-<tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
-<tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
-<tizen:privilege name="http://tizen.org/privilege/download"/>
-<tizen:privilege name="http://tizen.org/privilege/datasync"/>
-<tizen:privilege name="http://tizen.org/privilege/datacontrol.consumer"/>
-<tizen:privilege name="http://tizen.org/privilege/content.write"/>
-<tizen:privilege name="http://tizen.org/privilege/content.read"/>
-<tizen:privilege name="http://tizen.org/privilege/contact.write"/>
-<tizen:privilege name="http://tizen.org/privilege/contact.read"/>
-<tizen:privilege name="http://tizen.org/privilege/callhistory.write"/>
-<tizen:privilege name="http://tizen.org/privilege/callhistory.read"/>
-<tizen:privilege name="http://tizen.org/privilege/calendar.write"/>
-<tizen:privilege name="http://tizen.org/privilege/calendar.read"/>
-<tizen:privilege name="http://tizen.org/privilege/bluetooth.spp"/>
-<tizen:privilege name="http://tizen.org/privilege/bluetooth.gap"/>
-<tizen:privilege name="http://tizen.org/privilege/bluetooth.admin"/>
-<tizen:privilege name="http://tizen.org/privilege/appmanager.kill"/>
-<tizen:privilege name="http://tizen.org/privilege/appmanager.certificate"/>
-<tizen:privilege name="http://tizen.org/privilege/application.read"/>
-<tizen:privilege name="http://tizen.org/privilege/application.launch"/>
-<tizen:privilege name="http://tizen.org/privilege/alarm"/>
-<tizen:privilege name="http://tizen.org/privilege/fullscreen"/>
-<tizen:privilege name="http://tizen.org/privilege/location"/>
-<tizen:privilege name="http://tizen.org/privilege/mediacapture"/>
-<tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
-<access origin="*" subdomains="true"/>
-
-</tizen></ti:app>
+    <tizen appid="1nWLDDpOmg" xmlns:tizen="http://ti.appcelerator.org">
+        <tizen:privilege name="http://tizen.org/privilege/system"/>
+        <tizen:privilege name="http://tizen.org/privilege/tizen"/>
+        <tizen:privilege name="http://tizen.org/privilege/systeminfo"/>
+        <tizen:privilege name="http://tizen.org/privilege/system"/>
+        <tizen:privilege name="http://tizen.org/privilege/setting"/>
+        <tizen:privilege name="http://tizen.org/privilege/secureelement"/>
+        <tizen:privilege name="http://tizen.org/privilege/push"/>
+        <tizen:privilege name="http://tizen.org/privilege/power"/>
+        <tizen:privilege name="http://tizen.org/privilege/package.info"/>
+        <tizen:privilege name="http://tizen.org/privilege/notification.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/notification.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/notification"/>
+        <tizen:privilege name="http://tizen.org/privilege/nfc.tag"/>
+        <tizen:privilege name="http://tizen.org/privilege/nfc.p2p"/>
+        <tizen:privilege name="http://tizen.org/privilege/nfc.common"/>
+        <tizen:privilege name="http://tizen.org/privilege/nfc.admin"/>
+        <tizen:privilege name="http://tizen.org/privilege/networkbearerselection"/>
+        <tizen:privilege name="http://tizen.org/privilege/messaging.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/messaging.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/messaging.send"/>
+        <tizen:privilege name="http://tizen.org/privilege/messaging.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/download"/>
+        <tizen:privilege name="http://tizen.org/privilege/datasync"/>
+        <tizen:privilege name="http://tizen.org/privilege/datacontrol.consumer"/>
+        <tizen:privilege name="http://tizen.org/privilege/content.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/content.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/contact.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/contact.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/callhistory.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/callhistory.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/calendar.write"/>
+        <tizen:privilege name="http://tizen.org/privilege/calendar.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/bluetooth.spp"/>
+        <tizen:privilege name="http://tizen.org/privilege/bluetooth.gap"/>
+        <tizen:privilege name="http://tizen.org/privilege/bluetooth.admin"/>
+        <tizen:privilege name="http://tizen.org/privilege/appmanager.kill"/>
+        <tizen:privilege name="http://tizen.org/privilege/appmanager.certificate"/>
+        <tizen:privilege name="http://tizen.org/privilege/application.read"/>
+        <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+        <tizen:privilege name="http://tizen.org/privilege/alarm"/>
+        <tizen:privilege name="http://tizen.org/privilege/fullscreen"/>
+        <tizen:privilege name="http://tizen.org/privilege/location"/>
+        <tizen:privilege name="http://tizen.org/privilege/mediacapture"/>
+        <tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
+        <access origin="*" subdomains="true"/>
+    </tizen>
+    <property name="com-soasta-touchtest-version" type="string">6872.18</property>
+    <property name="com-soasta-touchtest-ios-appId" type="string">179412</property>
+</ti:app>
