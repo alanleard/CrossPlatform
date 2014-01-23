@@ -1,13 +1,16 @@
 <Alloy>
 	<Window class="container">
 		<View id="nav">
-			<ImageView id="logo"/>
-			<View id="couponClick" onClick="couponClick">
+			<ImageView id="logo" onClick="chart"/>
+			<View id="couponContainer" onClick="couponClick">
 				<WebView id="coupons"/>
 			</View>
 		</View>
 		<Label id="barcode" onClick="scanBarcode"/>
-		<Label id="location" onClick="locate"/>
+		<View id="buttons">	
+			<ImageView id="email" onClick="emailPicture" platform="ios,android, blackberry"/>
+			<Label id="location" onClick="locate"/>
+		</View>
 		<View id="mapview" ns="Ti.Map" />
 		<ScrollView id="table"/>
 	</Window>

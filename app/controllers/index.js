@@ -2,6 +2,14 @@ $.index.open();
 
 Ti.Geolocation.purpose = "Setting your location";
 Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_LOW;
+Ti.Geolocation.preferredProvider = "gps";
+
+if (Titanium.Geolocation.locationServicesEnabled === false) {
+    Titanium.UI.createAlertDialog({
+        title : 'Geolocation Notice',
+        message : 'Your device has geo turned off - turn it on.'
+    }).show();
+}
 
 var couponArr = [
 	"http://www.trafficwave.net/images/banners/email_marketing234x60a.gif",
@@ -54,9 +62,10 @@ function locate(evt){
 	if(evt.source.text == L("button_name")){
 		evt.source.text = L("button_locating");
 		Ti.Geolocation.getCurrentPosition(function(e) {
+			
 			if(e.coords && e.coords.latitude && data.length<4){	
 				var closest = require("closest");
-				alert(closest(e.coords.latitude, e.coords.longitude, data).title+" is the closest location.");
+				alert(closest(e.coords.latitude, e.coords.longitude, data).title+" is the closest location.\n");
 			    data.push(
 				    {
 						latitude: e.coords.latitude,
@@ -74,7 +83,6 @@ function locate(evt){
 			 	
 				$.mapview.addAnnotation(annotations[3]);
 				$.mapview.setRegion({latitude:e.coords.latitude, longitude:e.coords.longitude, latitudeDelta:0.5, longitudeDelta:0.5});	
-				$.mapview.selectAnnotation(annotations[3]);
 				evt.source.text = L("button_located");
 				
 			} else {
@@ -99,17 +107,46 @@ function locate(evt){
 	}
 };
 
+function emailPicture(){
+	if(Ti.Media.availableCameras && Ti.Media.availableCameras.length==0){
+		Ti.Media.openPhotoGallery({
+			success:email,
+			cancel:function(){},
+			error:function(){}
+		});
+	} else {
+		Ti.Media.showCamera({
+			success:email,
+			cancel:function(){},
+			error:function(){}
+		});
+	}
+	
+	function email(event){
+		var photo = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "photo.png");
+		photo.write(event.media);
+		setTimeout(function(){
+			var emailDialog = Ti.UI.createEmailDialog({
+				subject : "Photo Attached",
+				toRecipients : ['foo@yahoo.com']
+			});
+			emailDialog.addAttachment(photo);
+			emailDialog.open();
+		},200);
+		
+	}
+}
+
 function tblClick(e){
 	$.mapview.setRegion({latitude:annotations[e.source.annotation].latitude, longitude:annotations[e.source.annotation].longitude, latitudeDelta:0.1, longitudeDelta:0.1});
 	$.mapview.selectAnnotation(annotations[e.source.annotation]);
 }
 
 function scanBarcode(){
-	var barcode = require("barcode");
-	barcode();
+	require("barcode")();
 }
 
-function couponClick(){
+function couponClick(e){
 	
 	if(favoriteCoupons.indexOf(couponArr[couponCount])!="-1"){
 		alert("Coupon #"+(couponCount+1)+" has already been added to your favorites.");
@@ -119,33 +156,8 @@ function couponClick(){
 	}
 }
 
-//Automated Testing Injection Code
-if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad')
-{
-  var touchTestModule = undefined;
-  try
-  {
-    touchTestModule = require("com.soasta.touchtest");
-  }
-  catch (tt_exception)
-  {
-    Ti.API.error("com.soasta.touchest module is required");
-  }
-
-  var cloudTestURL = Ti.App.getArguments().url;
-  if (cloudTestURL != null)
-  {
-    // The URL will be null if we don't launch through TouchTest.
-    touchTestModule && touchTestModule.initTouchTest(cloudTestURL);
-  }
-
-  Ti.App.addEventListener('resumed',function(e)
-  {
-    // Hook the resumed from background
-    var cloudTestURL = Ti.App.getArguments().url;
-    if (cloudTestURL != null)
-    {
-      touchTestModule && touchTestModule.initTouchTest(cloudTestURL);
-    }
-  });
+function chart(){
+	if(OS_IOS || OS_ANDROID){
+		require("/charts/chart")();
+	}	
 }

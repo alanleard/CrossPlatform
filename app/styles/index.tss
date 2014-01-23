@@ -12,7 +12,7 @@
 	width:60,
 	left:0
 }
-"#couponClick" : {
+"#couponContainer" : {
 	height:58, 
 	width:234,
 	right:0
@@ -20,16 +20,32 @@
 "#coupons" : {
 	height:Ti.UI.FILL, 
 	width:Ti.UI.FILL,
-	touchEnabled:false,
-	backgroundColor:"#000"
+	backgroundColor:"#000",
+	scalesPageToFit:false,
+	hideLoadIndicator:true,
+	enableZoomControls:false
+}
+"#coupons[platform=mobileweb]" : {
+	touchEnabled:false
 }
 "#barcode" : {
 	text:L("barcode_scan"),
 	top:10,
 	color:"#000"
 }
+"#email" : {
+	image:"/camera.png",
+	borderRadius:5,
+	left:10,
+	height:40, 
+	width:50
+}
+"#buttons" : {
+	height:40,
+	width:Ti.UI.FILL
+}
 "#location" : {
-	top:10,
+	right:10,
 	text:L("button_name"),
 	backgroundImage:"/btn.png"	
 }
@@ -38,7 +54,6 @@
 	layout:"vertical"
 }
 "#mapview" : {
-	top:20,
 	height:"35%",
 	region:{latitude:37.389569, longitude:-122.051651, latitudeDelta:0.5, longitudeDelta:0.5}
 }

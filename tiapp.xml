@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <property name="acs-authbase-url" type="string">https://secure-identity.cloud.appcelerator.com</property>
-    <property name="acs-base-url" type="string">https://api.cloud.appcelerator.com</property>
-    <property name="acs-oauth-secret-development" type="string">6qMw9xt5Hq9HFrYXEWsKVbrPw65EhpTA</property>
-    <property name="acs-oauth-key-development" type="string">IL1G6JulUPBjytaluRowPwPSoU8TsWEl</property>
-    <property name="acs-api-key-development" type="string">Hnmazxau57yL6QoF3sA1o1fRnG5IVhRM</property>
-    <property name="acs-oauth-secret-production" type="string">EK0lOCEjURjgCWBDtYM13x8phBFvvFMC</property>
-    <property name="acs-oauth-key-production" type="string">mNflcZWLrCqIQZrBP9S52z730iJRrr90</property>
-    <property name="acs-api-key-production" type="string">640vEXjfwJ25jBYIpnj4ERyQD4jwlfei</property>
-    <property name="com-appcelerator-apm-id" type="string">52dd5619b8d7d5019300003e</property>
-    <id>com.appcelerator.cross</id>
+    <id>com.appcelerator.crossBlue</id>
     <name>CrossPlatform</name>
     <version>1.0</version>
     <publisher>aleard</publisher>
@@ -44,19 +35,6 @@
                 <false/>
                 <key>UIStatusBarStyle</key>
                 <string>UIStatusBarStyleDefault</string>
-                <key>CFBundleURLTypes</key>
-                <array>
-                    <dict>
-                        <key>CFBundleTypeRole</key>
-                        <string>Editor</string>
-                        <key>CFBundleURLName</key>
-                        <string>com.appcelerator.cross</string>
-                        <key>CFBundleURLSchemes</key>
-                        <array>
-                            <string>touchtest-41b53741-b4e9-48dc-9af6-a427dd5cce42</string>
-                        </array>
-                    </dict>
-                </array>
             </dict>
         </plist>
     </ios>
@@ -90,14 +68,7 @@
                         <action android:name="android.intent.action.MAIN"/>
                         <category android:name="android.intent.category.LAUNCHER"/>
                     </intent-filter>
-                    <intent-filter>
-                        <data android:scheme="touchtest-41b53741-b4e9-48dc-9af6-a427dd5cce42"/>
-                        <action android:name="android.intent.action.VIEW"/>
-                        <category android:name="android.intent.category.BROWSABLE"/>
-                        <category android:name="android.intent.category.DEFAULT"/>
-                    </intent-filter>
                 </activity>
-                <service android:enabled="true" android:exported="false" android:name="com.soasta.android.touchtest.TouchTestService"/>
             </application>
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
             <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -121,12 +92,6 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="android">com.appcelerator.apm</module>
-        <module deploy-type="test" platform="android" version="1.0">com.soasta.touchtest</module>
-        <module deploy-type="development" platform="iphone" version="1.0">com.soasta.touchtest</module>
-        <module deploy-type="development" platform="android" version="1.0">com.soasta.touchtest</module>
-        <module platform="iphone">com.appcelerator.apm</module>
-        <module deploy-type="test" platform="iphone" version="1.0">com.soasta.touchtest</module>
         <module platform="android">ti.map</module>
         <module platform="iphone">ti.map</module>
         <module platform="iphone">ti.barcode</module>
@@ -143,7 +108,6 @@
     <sdk-version>3.2.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
-        <plugin>com.soasta.touchtest.android</plugin>
     </plugins>
     <tizen appid="1nWLDDpOmg" xmlns:tizen="http://ti.appcelerator.org">
         <tizen:privilege name="http://tizen.org/privilege/system"/>
@@ -194,6 +158,4 @@
         <tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
         <access origin="*" subdomains="true"/>
     </tizen>
-    <property name="com-soasta-touchtest-version" type="string">6872.18</property>
-    <property name="com-soasta-touchtest-ios-appId" type="string">179412</property>
 </ti:app>
