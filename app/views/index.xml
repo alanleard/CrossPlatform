@@ -1,9 +1,12 @@
 <Alloy>
 	<Window class="container">
-		<ImageView id="logo"/>
+		<View id="nav">
+			<ImageView id="logo"/>
+			<WebView id="ads"/>
+		</View>
 		<Label id="label"/>
 		<Button id="button" onClick="btnClick"/>
 		<View id="mapview" ns="Ti.Map" />
-		<TableView id="table" onClick="tblClick"/>
+		<ScrollView id="table"/>
 	</Window>
 </Alloy>

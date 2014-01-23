@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="button_name">Obtener mi Ubicación</string>
+	<string name="label_name">Soy una Etiqueta</string>
+	<string name="button_locating">Conseguir Ubicación...</string>
+	<string name="button_located">Ubicación Encontrado</string>
+	<string name="button_failed">Ubicación no Disponible</string>
+</resources>

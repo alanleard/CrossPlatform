@@ -1,0 +1,9 @@
+<Alloy>
+	<View class="container">
+		<View id="content" class="row_data">
+			<ImageView id="image" class="row_data"/>
+			<Label id="title" class="row_data"/>
+		</View>
+		<View id="divider" class="row_data"/>
+	</View>
+</Alloy>
