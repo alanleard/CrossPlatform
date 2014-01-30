@@ -1,6 +1,6 @@
 {
 	"global": {
-		"theme":"blue"
+		"theme":"red"
 	}, 
 	"env:development": {}, 
 	"env:test": {}, 

@@ -4,12 +4,7 @@ Ti.Geolocation.purpose = "Setting your location";
 Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_LOW;
 Ti.Geolocation.preferredProvider = "gps";
 
-if (Titanium.Geolocation.locationServicesEnabled === false) {
-    Titanium.UI.createAlertDialog({
-        title : 'Geolocation Notice',
-        message : 'Your device has geo turned off - turn it on.'
-    }).show();
-}
+var customMapView = true;
 
 var couponArr = [
 	"http://www.trafficwave.net/images/banners/email_marketing234x60a.gif",
@@ -33,26 +28,35 @@ var data = [
 		latitude: 37.389569,
 		longitude: -122.050212,
 		title: 'Appcelerator HQ',
-		image:"http://media.tumblr.com/tumblr_m1hzbmMNrs1qznie6.jpg"
+		image:"http://media.tumblr.com/tumblr_m1hzbmMNrs1qznie6.jpg",
+		phone:'+1-650-200-4255'
 	},
 	{
 		latitude: 37.331689,
 		longitude: -122.030731,
 		title: 'Apple HQ',
-		image:"http://www.bangor.ac.uk/itservices/office365/images/apple.png"
+		image:"http://www.bangor.ac.uk/itservices/office365/images/apple.png",
+		phone:'+1-800-692-7753'
 	},
 	{
 		latitude: 37.422502,
 		longitude: -122.0855498,
 		title: 'Google HQ',
-		image:"https://cdn1.iconfinder.com/data/icons/yooicons_set01_socialbookmarks/512/social_google_box.png"
+		image:"https://cdn1.iconfinder.com/data/icons/yooicons_set01_socialbookmarks/512/social_google_box.png",
+		phone:'+1-855-492-5538'
 	}
 ];
 
 for(var i in data){
-	annotations.push(Ti.Map.createAnnotation({latitude:data[i].latitude, longitude:data[i].longitude, title:data[i].title, animated:true}));
-	var row = Alloy.createController("row", {title:data[i].title, annotation:i, image:data[i].image}).getView();
-	row.addEventListener("click", tblClick);
+	annotations.push(Ti.Map.createAnnotation({latitude:data[i].latitude, longitude:data[i].longitude, title:data[i].title, animated:true, canShowCallout:customMapView?false:true}));
+	var row = Alloy.createController("row", {title:data[i].title, annotation:i, image:data[i].image, phone:data[i].phone}).getView();
+	if(OS_IOS ||OS_ANDROID){
+		row.addEventListener(OS_IOS?"longpress":"longclick", addContact);
+		row.addEventListener("touchend", tblClick);
+	} else {
+		row.addEventListener("click", tblClick);
+	}
+	
 	$.table.add(row);
 }
 
@@ -161,3 +165,170 @@ function chart(){
 		require("/charts/chart")();
 	}	
 }
+
+function addContact(params){
+	if(OS_IOS || OS_ANDROID){
+		
+		if (Ti.Contacts.contactsAuthorization == Ti.Contacts.AUTHORIZATION_AUTHORIZED){
+		    performAddressBookFunction();
+		} else if (Ti.Contacts.contactsAuthorization == Ti.Contacts.AUTHORIZATION_UNKNOWN){
+		    Ti.Contacts.requestAuthorization(function(e){
+		        if (e.success) {
+		            performAddressBookFunction();
+		        } else {
+		            alert("Access to Address Book Denied");
+		        }
+		    });
+		} else {
+		    alert("Access to Address Book Denied");
+		}
+	
+		function performAddressBookFunction(){
+			var contactData = data[params.source.annotation];
+			if(contactData.title && contactData.phone){
+				if(Ti.Contacts.getPeopleWithName(contactData.title).length==0){
+					Ti.Contacts.createPerson({
+					  firstName: contactData.title,
+					  phone:{
+					    work: [contactData.phone]
+					  }
+					});
+				}
+				
+				var callAlert = Ti.UI.createAlertDialog({
+					title:contactData.title+"\nSaved to Contacts",
+					message:"Would you like to call\n"+contactData.title+" now?\n"+contactData.phone,
+					buttonNames:["No","Call"]
+				});
+				callAlert.show();
+				callAlert.addEventListener("click", function(e){
+					if(e.index == 1){
+						if(Ti.Platform.model == "Simulator"){
+							alert("Simulator cannot initiate a phone call, but on device the phone app would be opened and call would be initiated to:\n"+contactData.phone);
+						} else {
+							Ti.Platform.openURL("tel:"+contactData.phone);
+						}
+					}
+				});
+			}
+		}
+	}
+}
+if(customMapView == true && (OS_ANDROID || OS_IOS)){
+	var convertMapPoints = require('convertMapPoints'),
+	    win = $.index,
+	    pop = new createPopView(),
+	    popView = pop.view,
+	    popLabel = pop.label,
+	    defaultLatitude = 37,
+	    defaultLongitude = -122,
+	    selectedPin = null;
+	win.add(popView);
+	$.mapview.addEventListener("click",mapClick);
+	$.mapview.addEventListener("regionchanged",movePopView);
+
+
+	function createPopView(params){
+	    
+	    var params = params || {};
+	
+	    var contentView = Ti.UI.createView({
+	        top:0,
+	        width:params.width?params.width:100,
+	        height:params.height?params.height:100,
+	        backgroundColor:"#000000",
+	        borderRadius:20,
+	        opacity:params.opacity?params.opacity:0.8
+	    });
+	   
+	    var closeBtn = Ti.UI.createButton({
+	        title:"X",
+	        top:5,
+	        right:5,
+	        height:30,
+	        width:30,
+	        font:{fontWeight:"bold"}
+	    });
+	   
+	    this.label = Ti.UI.createLabel({
+	        top:25,
+	        left:5,
+	        right:5,
+	        color:"#ffffff",
+	        height:Ti.UI.SIZE,
+	        font:{fontSize:20},
+	        minimumFontSize:8
+	    });
+	    
+	    this.view = Ti.UI.createView({
+	        height:contentView.height,
+	        width:contentView.width,
+	        visible:false,
+	        opacity:0.0
+	    });
+	    
+	    this.view.add(contentView);
+	    this.view.add(closeBtn);
+	    this.view.add(this.label);
+	    
+	    closeBtn.addEventListener('click', closePopView);
+	    
+	}
+	
+	function closePopView(evt){
+	    
+	    popView.hide();
+	    selectedPin.setImage(selectedPin.pinImage);
+	    selectedPin = null;
+	
+	}
+	
+	function movePopView(evt){
+	    evt.source.setRegion(evt);
+	    if(selectedPin){
+	        var point = convertMapPoints({
+	            map:evt.source,
+	            annotation:selectedPin,
+	            view:win
+	        });
+	        popView.center ={x:point.x, y:(point.y-(popView.height/2)-20)};
+	    }
+	}
+	
+	
+	function showPopView(evt){
+	    
+	    var point = convertMapPoints({
+	        map:evt.source,
+	        annotation:evt.annotation?evt.annotation:selectedPin,
+	        view:win
+	    });
+	    popLabel.text = evt.annotation.title;
+	    popView.center ={x:point.x, y:(point.y-(popView.height/2)-30)};
+	    popView.show();
+	    popView.animate({opacity:1.0, duration:250});
+	    
+	}
+	
+	function mapClick(evt) {
+		if(customMapView == true){
+		    if(evt.clicksource === 'pin' && evt.annotation != selectedPin){
+		        evt.source.deselectAnnotation(evt.annotation); 
+		        showPopView(evt);
+		        evt.annotation.setImage(evt.annotation.selectedPinImage);
+		        if(selectedPin){
+		            selectedPin.setImage(selectedPin.pinImage);
+		            selectedPin = evt.annotation;
+		        } else {
+		            selectedPin = evt.annotation;
+		        }
+		    } else {
+		        evt.source.deselectAnnotation(evt.annotation); 
+		    }
+	    }
+	     
+	}
+
+}
+
+

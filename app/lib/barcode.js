@@ -52,6 +52,14 @@ if(OS_IOS || OS_ANDROID){
 	    width: 220, height: 30,
 	    bottom: 10
 	});
+	var oLogo = Ti.UI.createImageView({
+		height:40,
+		width:40,
+		top:10,
+		left:10,
+		image:"/appicon.png"
+	});
+	overlay.add(oLogo);
 	switchButton.addEventListener('click', function () {
 	    Barcode.useFrontCamera = !Barcode.useFrontCamera;
 	    switchButton.title = Barcode.useFrontCamera ? 'Back Camera' : 'Front Camera';

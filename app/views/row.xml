@@ -1,5 +1,5 @@
 <Alloy>
-	<View class="container">
+	<View class="container" onClick="touch">
 		<View id="content" class="row_data">
 			<ImageView id="image" class="row_data"/>
 			<Label id="title" class="row_data"/>

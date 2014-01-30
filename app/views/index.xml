@@ -1,5 +1,6 @@
 <Alloy>
-	<Window class="container">
+	<Window>
+		<View class="container">
 		<View id="nav">
 			<ImageView id="logo" onClick="chart"/>
 			<View id="couponContainer" onClick="couponClick">
@@ -11,7 +12,8 @@
 			<ImageView id="email" onClick="emailPicture" platform="ios,android, blackberry"/>
 			<Label id="location" onClick="locate"/>
 		</View>
-		<View id="mapview" ns="Ti.Map" />
+		<View id="mapview" ns="Ti.Map"/>
 		<ScrollView id="table"/>
+		</View>
 	</Window>
 </Alloy>
