@@ -1,0 +1,6 @@
+<Alloy>
+	<View class="container">
+		<Label id="menuChart" onClick="chart">Charts</Label>
+		<View id="line"/>
+	</View>
+</Alloy>

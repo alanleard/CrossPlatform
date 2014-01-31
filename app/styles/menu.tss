@@ -1,0 +1,15 @@
+".container" : {
+	backgroundColor:"blue",
+	layout:"vertical"
+}
+"#menuChart" : {
+	top:40,
+	color:"#fff",
+	left:10,
+	width:Ti.UI.SIZE
+}
+"#line" : {
+	height:2,
+	width:Ti.UI.FILL,
+	backgroundColor:"#fff"
+}

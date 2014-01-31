@@ -105,7 +105,7 @@
         <target device="mobileweb">true</target>
         <target device="tizen">true</target>
     </deployment-targets>
-    <sdk-version>3.2.1.v20140121132444</sdk-version>
+    <sdk-version>3.2.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
