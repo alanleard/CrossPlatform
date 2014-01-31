@@ -3,7 +3,7 @@ Ti.Geolocation.purpose = "Setting your location";
 Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_LOW;
 Ti.Geolocation.preferredProvider = "gps";
 
-var customMapView = true;
+var customMapView = false;
 
 var couponArr = [
 	"http://www.trafficwave.net/images/banners/email_marketing234x60a.gif",
