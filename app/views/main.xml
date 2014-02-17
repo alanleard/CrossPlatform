@@ -13,6 +13,7 @@
 				<Label id="location" onClick="locate"/>
 			</View>
 			<View id="mapview" ns="Ti.Map"/>
+			
 			<ScrollView id="table"/>
 		</View>
 	</View>

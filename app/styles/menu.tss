@@ -2,11 +2,14 @@
 	backgroundColor:"blue",
 	layout:"vertical"
 }
-"#menuChart" : {
+".menuItem" : {
 	top:40,
 	color:"#fff",
 	left:10,
-	width:Ti.UI.SIZE
+	width:Ti.UI.FILL,
+	height:40,
+	borderColor:"red",
+	borderWidth:2
 }
 "#line" : {
 	height:2,

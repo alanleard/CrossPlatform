@@ -1,28 +1,21 @@
+//APM.leaveBreadcrumb("{event:'click', status: 'Cancel button was hit'}"); 
+//Ti.Analytics.featureEvent('click', {id: e.source.id});
 
 Ti.Geolocation.purpose = "Setting your location";
 Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_LOW;
 Ti.Geolocation.preferredProvider = "gps";
 
-var customMapView = false;
+var customMapView = true;
+var couponCount = 0;
+var myRow = null;
+var favoriteCoupons = [];
+var annotations = [];
 
 var couponArr = [
 	"http://www.trafficwave.net/images/banners/email_marketing234x60a.gif",
 	"http://www.trafficwave.net/images/banners/email_marketing234x60b.gif",
 	"http://www.trafficwave.net/images/banners/email_marketing234x60c.gif",
 ];
-
-var annotations = [];
-var couponCount = 0;
-var myRow = null;
-var favoriteCoupons = [];
-
-var couponInterval = setInterval(function(){
-	$.coupons.setUrl(couponArr[couponCount]);
-	couponCount++;
-	if(couponCount>2){
-		couponCount = 0;
-	}
-}, 3000);
 
 var data = [
 	{
@@ -48,6 +41,14 @@ var data = [
 	}
 ];
 
+var couponInterval = setInterval(function(){
+	$.coupons.setUrl(couponArr[couponCount]);
+	couponCount++;
+	if(couponCount>2){
+		couponCount = 0;
+	}
+}, 3000);
+
 for(var i in data){
 	
 	annotations.push(Ti.Map.createAnnotation({latitude:data[i].latitude, longitude:data[i].longitude, title:data[i].title, animated:true, canShowCallout:customMapView?false:true}));
@@ -65,6 +66,50 @@ for(var i in data){
 }
 
 $.mapview.setAnnotations(annotations);
+
+function couponClick(e){
+	
+	if(favoriteCoupons.indexOf(couponArr[couponCount])!="-1"){
+		alert("Coupon #"+(couponCount+1)+" has already been added to your favorites.");
+	} else {
+		favoriteCoupons.push(couponArr[couponCount]);
+		alert("Coupon #"+(couponCount+1)+" has been added to your favorites.");
+	}
+}
+
+function scanBarcode(){
+	require("barcode")();
+}
+
+function emailPicture(){
+	if(Ti.Media.availableCameras && Ti.Media.availableCameras.length==0){
+		Ti.Media.openPhotoGallery({
+			success:email,
+			cancel:function(){},
+			error:function(){}
+		});
+	} else {
+		Ti.Media.showCamera({
+			success:email,
+			cancel:function(){},
+			error:function(){}
+		});
+	}
+	
+	function email(event){
+		var photo = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "photo.png");
+		photo.write(event.media);
+		setTimeout(function(){
+			var emailDialog = Ti.UI.createEmailDialog({
+				subject : "Photo Attached",
+				toRecipients : ['foo@yahoo.com']
+			});
+			emailDialog.addAttachment(photo);
+			emailDialog.open();
+		},200);
+		
+	}
+}
 
 function locate(evt){
 	if(evt.source.text == L("button_name")){
@@ -115,53 +160,9 @@ function locate(evt){
 	}
 };
 
-function emailPicture(){
-	if(Ti.Media.availableCameras && Ti.Media.availableCameras.length==0){
-		Ti.Media.openPhotoGallery({
-			success:email,
-			cancel:function(){},
-			error:function(){}
-		});
-	} else {
-		Ti.Media.showCamera({
-			success:email,
-			cancel:function(){},
-			error:function(){}
-		});
-	}
-	
-	function email(event){
-		var photo = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "photo.png");
-		photo.write(event.media);
-		setTimeout(function(){
-			var emailDialog = Ti.UI.createEmailDialog({
-				subject : "Photo Attached",
-				toRecipients : ['foo@yahoo.com']
-			});
-			emailDialog.addAttachment(photo);
-			emailDialog.open();
-		},200);
-		
-	}
-}
-
 function tblClick(e){
 	$.mapview.setRegion({latitude:annotations[e.source.annotation].latitude, longitude:annotations[e.source.annotation].longitude, latitudeDelta:0.1, longitudeDelta:0.1});
 	$.mapview.selectAnnotation(annotations[e.source.annotation]);
-}
-
-function scanBarcode(){
-	require("barcode")();
-}
-
-function couponClick(e){
-	
-	if(favoriteCoupons.indexOf(couponArr[couponCount])!="-1"){
-		alert("Coupon #"+(couponCount+1)+" has already been added to your favorites.");
-	} else {
-		favoriteCoupons.push(couponArr[couponCount]);
-		alert("Coupon #"+(couponCount+1)+" has been added to your favorites.");
-	}
 }
 
 function addContact(params){

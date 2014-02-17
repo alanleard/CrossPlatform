@@ -1,6 +1,8 @@
 <Alloy>
 	<View class="container">
-		<Label id="menuChart" onClick="chart">Charts</Label>
+		<Label id="charts" class="menuItem" onClick="open" platform="ios,android">Charts</Label>
+		<View id="line"/>
+		<Label id="calendars" class="menuItem" onClick="open" platform="ios,android">Calendar</Label>
 		<View id="line"/>
 	</View>
 </Alloy>
