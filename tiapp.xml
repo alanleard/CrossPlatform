@@ -121,12 +121,12 @@
         <module platform="android">ti.crypto</module>
         <module platform="android">ti.map</module>
         <module platform="android">com.appcelerator.apm</module>
-        <module deploy-type="test" platform="android" version="1.0">com.soasta.touchtest</module>
-        <module deploy-type="test" platform="iphone" version="1.0">com.soasta.touchtest</module>
-        <module deploy-type="development" platform="android" version="1.0">com.soasta.touchtest</module>
-        <module deploy-type="development" platform="iphone" version="1.0">com.soasta.touchtest</module>
         <module platform="iphone">ti.barcode</module>
         <module platform="iphone">com.appcelerator.apm</module>
+        <module deploy-type="development" platform="android">com.soasta.touchtest</module>
+        <module deploy-type="test" platform="iphone">com.soasta.touchtest</module>
+        <module deploy-type="test" platform="android">com.soasta.touchtest</module>
+        <module deploy-type="development" platform="iphone">com.soasta.touchtest</module>
         <module platform="iphone">ti.map</module>
         <module platform="android">ti.cloudpush</module>
     </modules>

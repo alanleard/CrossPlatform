@@ -1,6 +1,5 @@
-module.exports = open;
-
 function open(){
+	//http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Calendar
 	var calendars = [];
 	var selectedCalendarName;
 	var selectedid;
@@ -18,7 +17,7 @@ function open(){
 		height:Ti.UI.SIZE,
 		width:Ti.UI.SIZE,
 		top:20,
-		left:5
+		left:10
 	});
 	close.addEventListener("click",function(){
 		win.close();
@@ -261,3 +260,5 @@ function open(){
 		}
 	}
 }
+
+module.exports = open;

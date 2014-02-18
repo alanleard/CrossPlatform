@@ -1,16 +1,15 @@
-module.exports = open;
-
 function open(){
 
 	var win = Titanium.UI.createWindow({
-	    backgroundColor : '#fff'
+	    backgroundColor : '#fff',
+	    modal:true
 	});
 	 
 	var chartView = Ti.UI.createWebView({
 	    height : 250,
 	    width : "100%",
 	    left : 0,
-	    top : 20,
+	    top : 80,
 	    showScrollbars : false,
 	    touchEnabled : false,
 	    url : '/charts/chart.html',
@@ -21,13 +20,14 @@ function open(){
 	 
 	var button = Ti.UI.createButton({
 	    title : 'Generate New Chart',
-	    top : 270,
+	    top : 340,
 	});
 	win.add(button);
 	
 	var done = Ti.UI.createButton({
-	    title : 'Done',
-	    top : 310
+	    title : 'Back',
+	    top : 20,
+	    left:10
 	});
 	win.add(done);
 	 
@@ -50,3 +50,5 @@ function open(){
 	
 	doChart();
 }
+
+module.exports = open;

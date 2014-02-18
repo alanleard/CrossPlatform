@@ -3,16 +3,16 @@
 	layout:"vertical"
 }
 ".menuItem" : {
-	top:40,
 	color:"#fff",
 	left:10,
 	width:Ti.UI.FILL,
-	height:40,
-	borderColor:"red",
-	borderWidth:2
+	height:40
 }
 "#line" : {
 	height:2,
 	width:Ti.UI.FILL,
 	backgroundColor:"#fff"
+}
+"#header" : {
+	height:20
 }

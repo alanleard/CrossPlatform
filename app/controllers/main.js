@@ -1,22 +1,26 @@
-//APM.leaveBreadcrumb("{event:'click', status: 'Cancel button was hit'}"); 
-//Ti.Analytics.featureEvent('click', {id: e.source.id});
+//Fire init breadcrumb and analytics event
+Alloy.Globals.apm.leaveBreadcrumb("Evaluate main.js"); 
+Ti.Analytics.featureEvent('LaunchApp');
 
+//Setup Geolocation
 Ti.Geolocation.purpose = "Setting your location";
 Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_LOW;
 Ti.Geolocation.preferredProvider = "gps";
 
-var customMapView = true;
+var customMapView = false;
 var couponCount = 0;
 var myRow = null;
 var favoriteCoupons = [];
 var annotations = [];
 
+//Create array of coupon urls
 var couponArr = [
 	"http://www.trafficwave.net/images/banners/email_marketing234x60a.gif",
 	"http://www.trafficwave.net/images/banners/email_marketing234x60b.gif",
 	"http://www.trafficwave.net/images/banners/email_marketing234x60c.gif",
 ];
 
+//Create map locations
 var data = [
 	{
 		latitude: 37.389569,
@@ -41,7 +45,9 @@ var data = [
 	}
 ];
 
+//Create and start coupon rotation
 var couponInterval = setInterval(function(){
+	Ti.Analytics.featureEvent('CouponView');
 	$.coupons.setUrl(couponArr[couponCount]);
 	couponCount++;
 	if(couponCount>2){
@@ -49,6 +55,7 @@ var couponInterval = setInterval(function(){
 	}
 }, 3000);
 
+//Loop through locations and add them to the map and the table
 for(var i in data){
 	
 	annotations.push(Ti.Map.createAnnotation({latitude:data[i].latitude, longitude:data[i].longitude, title:data[i].title, animated:true, canShowCallout:customMapView?false:true}));
@@ -67,7 +74,10 @@ for(var i in data){
 
 $.mapview.setAnnotations(annotations);
 
+
 function couponClick(e){
+	Alloy.Globals.apm.leaveBreadcrumb("couponClick()"); 
+	Ti.Analytics.featureEvent('CouponClicked');
 	
 	if(favoriteCoupons.indexOf(couponArr[couponCount])!="-1"){
 		alert("Coupon #"+(couponCount+1)+" has already been added to your favorites.");
@@ -78,10 +88,16 @@ function couponClick(e){
 }
 
 function scanBarcode(){
+	Alloy.Globals.apm.leaveBreadcrumb("scanBarcode()"); 
+	Ti.Analytics.featureEvent('BarcodeScanned');
+	
 	require("barcode")();
 }
 
 function emailPicture(){
+	Alloy.Globals.apm.leaveBreadcrumb("emailPicture()"); 
+	Ti.Analytics.featureEvent('EmailPhoto');
+	
 	if(Ti.Media.availableCameras && Ti.Media.availableCameras.length==0){
 		Ti.Media.openPhotoGallery({
 			success:email,
@@ -112,6 +128,9 @@ function emailPicture(){
 }
 
 function locate(evt){
+	Alloy.Globals.apm.leaveBreadcrumb("locate()"); 
+	Ti.Analytics.featureEvent('UserLocated');
+	
 	if(evt.source.text == L("button_name")){
 		evt.source.text = L("button_locating");
 		Ti.Geolocation.getCurrentPosition(function(e) {
@@ -161,11 +180,17 @@ function locate(evt){
 };
 
 function tblClick(e){
+	Alloy.Globals.apm.leaveBreadcrumb("tblClick()"); 
+	Ti.Analytics.featureEvent('BusinessClicked');
+	
 	$.mapview.setRegion({latitude:annotations[e.source.annotation].latitude, longitude:annotations[e.source.annotation].longitude, latitudeDelta:0.1, longitudeDelta:0.1});
 	$.mapview.selectAnnotation(annotations[e.source.annotation]);
 }
 
 function addContact(params){
+	Alloy.Globals.apm.leaveBreadcrumb("addContact()"); 
+	Ti.Analytics.featureEvent('BussinessAddedAsContact');
+	
 	if(OS_IOS || OS_ANDROID){
 		
 		if (Ti.Contacts.contactsAuthorization == Ti.Contacts.AUTHORIZATION_AUTHORIZED){

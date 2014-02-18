@@ -1,8 +1,13 @@
 <Alloy>
 	<View class="container">
+		<View id="header"/>
 		<Label id="charts" class="menuItem" onClick="open" platform="ios,android">Charts</Label>
 		<View id="line"/>
 		<Label id="calendars" class="menuItem" onClick="open" platform="ios,android">Calendar</Label>
+		<View id="line"/>
+		<Label id="encrypt" class="menuItem" onClick="encrypt" platform="ios,android">Encryption</Label>
+		<View id="line"/>
+		<Label id="push" class="menuItem" onClick="open" platform="ios,android">Push Notification</Label>
 		<View id="line"/>
 	</View>
 </Alloy>
